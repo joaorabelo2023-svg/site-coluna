@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
     
     <style>
-        /* --- RESET AGRESSIVO PARA ELEMENTOR --- */
+        /* --- RESET GERAL --- */
         html, body {
             margin: 0 !important;
             padding: 0 !important;
@@ -47,74 +47,63 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        /* --- ESTILOS DO PLUGIN DE TELEFONE --- */
-        .iti {
-            width: 100%;
-            margin-bottom: 15px;
-            color: #000;
-        }
-        
-        .iti__country-list, .iti--container {
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #ccc;
-            z-index: 2147483647 !important;
-            position: fixed !important;
-        }
-
-        /* --- BARRA DE AVISO --- */
+        /* --- BARRA DE AVISO (CORREÇÃO ABSOLUTA) --- */
         .top-bar {
             background-color: var(--red-alert);
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            text-align: center;
-            padding: 15px 10px;
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 0.9rem;
             font-weight: bold;
-            text-transform: none;
             color: #fff;
-            box-sizing: border-box;
+            z-index: 1000; 
         }
 
+        /* --- CONTAINER PRINCIPAL --- */
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px; /* Aumentei um pouco a largura máxima para ajudar no desktop */
             padding: 20px;
+            margin-top: 50px; 
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* --- SEGREDO REVELADO --- */
         .headline-box { 
-            margin: 20px 0 30px 0; 
+            margin: 40px 0 30px 0; 
             width: 100%;
         }
 
         .secret-label {
-            font-size: 2.2rem;
+            font-size: 1.2rem; 
             font-weight: 900;
             color: #fff;
-            text-transform: none;
             display: inline-block;
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.2;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .secret-label::after {
             content: '';
             display: block;
             width: 100%;
-            height: 4px;
+            height: 3px;
             background-color: var(--red-alert);
             position: absolute;
             bottom: -5px;
@@ -124,32 +113,34 @@
         
         /* --- HEADLINE PRINCIPAL --- */
         .main-headline { 
-            font-size: 1.5rem;
-            font-weight: 700; /* Mais bold para combinar com a nova imagem */
+            font-size: 1.8rem;
+            font-weight: 700;
             line-height: 1.3; 
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
-        /* ESTILO DO DESTAQUE AMARELO (IGUAL A IMAGEM) */
         .main-headline span { 
             color: var(--accent-color); 
             font-weight: 700;
-            /* Adiciona a linha amarela embaixo */
             border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 2px; /* Espaço entre o texto e a linha */
-            display: inline-block; /* Garante que a borda fique correta */
-            line-height: 1.4; /* Altura de linha ajustada para a borda não bater no texto de baixo */
+            padding-bottom: 2px;
+            display: inline; 
+        }
+
+        /* Classe para controlar a quebra de linha só no mobile */
+        .mobile-br {
+            display: none; /* Escondido por padrão (Desktop) */
         }
 
         .headline-sub {
             margin-top: 15px; 
             font-size: 1rem; 
             color: #fff;
-            font-weight: 400; 
-            line-height: 1.4;
+            font-weight: 300; 
+            opacity: 0.9;
         }
 
-        /* --- VÍDEO WRAPPER --- */
+        /* --- VÍDEO --- */
         .video-box {
             position: relative;
             width: 100%;
@@ -179,7 +170,7 @@
         .play-icon { font-size: 3.5rem; color: rgba(255,255,255,0.9); margin-bottom: 10px; cursor: pointer; transition: 0.3s; }
         .play-icon:hover { color: #fff; transform: scale(1.1); }
 
-        /* --- OFERTA (DELAY) --- */
+        /* --- OFERTA --- */
         .offer-section {
             opacity: 0;
             visibility: hidden;
@@ -193,42 +184,22 @@
         .offer-section.visible { opacity: 1; visibility: visible; }
 
         .cta-button {
-            display: block; 
-            width: 100%; 
-            max-width: 100%; 
-            margin: 0 auto;
-            background-color: var(--primary-color); 
-            color: #fff; 
-            padding: 20px 15px;
-            font-size: 1.3rem; 
-            font-weight: 900; 
-            text-transform: uppercase;
-            border-radius: 50px;
-            text-decoration: none;
+            display: block; width: 100%; max-width: 100%; margin: 0 auto;
+            background-color: var(--primary-color); color: #fff; 
+            padding: 20px 15px; font-size: 1.3rem; font-weight: 900; 
+            text-transform: uppercase; border-radius: 50px; text-decoration: none;
             box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.5);
-            transition: all 0.2s; 
-            animation: pulse 2s infinite; 
-            cursor: pointer; 
-            border: none;
+            transition: all 0.2s; animation: pulse 2s infinite; cursor: pointer; border: none;
             line-height: 1.2;
         }
         .cta-button:active { transform: translateY(4px); box-shadow: 0 1px 0 #1e8449, 0 2px 5px rgba(0,0,0,0.5); }
-        .cta-button sub { display: block; font-size: 0.75rem; font-weight: 400; margin-top: 5px; text-transform: none; opacity: 0.95; letter-spacing: 0.5px; }
+        .cta-button sub { display: block; font-size: 0.75rem; font-weight: 400; margin-top: 5px; text-transform: none; opacity: 0.95; }
 
         .security-badges { margin-top: 20px; display: flex; justify-content: center; gap: 15px; color: var(--text-gray); font-size: 0.75rem; flex-wrap: wrap; }
         .security-item { display: flex; align-items: center; gap: 5px; }
 
         /* --- COMENTÁRIOS --- */
-        .comments-section { 
-            background-color: #fff; 
-            color: #1c1e21; 
-            width: 100%; 
-            max-width: 800px; 
-            margin-top: 40px; 
-            border-radius: 8px; 
-            padding: 15px; 
-            text-align: left; 
-        }
+        .comments-section { background-color: #fff; color: #1c1e21; width: 100%; max-width: 800px; margin-top: 40px; border-radius: 8px; padding: 15px; text-align: left; }
         .comments-header { border-bottom: 1px solid #e9ebee; padding-bottom: 10px; margin-bottom: 15px; font-weight: bold; font-size: 1rem; }
         .comment-item { display: flex; gap: 10px; margin-bottom: 15px; font-size: 0.9rem; }
         .avatar { width: 40px; height: 40px; background-color: #ddd; border-radius: 50%; flex-shrink: 0; overflow: hidden; }
@@ -263,7 +234,6 @@
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; color: #ddd; margin-bottom: 5px; font-size: 0.9rem; }
         
-        /* Input normal */
         .form-input {
             width: 100%; padding: 12px; background-color: #fff; border: 1px solid #ccc;
             color: #000; border-radius: 6px; font-size: 1rem; outline: none;
@@ -277,39 +247,42 @@
         }
         .modal-submit-btn:hover { background-color: var(--primary-hover); }
 
-        .iti--allow-dropdown input { 
-            padding-left: 95px !important; 
-            color: #000; 
-            background-color: #fff; 
+        .iti { width: 100%; margin-bottom: 15px; color: #000; }
+        .iti--allow-dropdown input { padding-left: 95px !important; color: #000; background-color: #fff; }
+        
+        .iti__country-list, .iti--container {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            z-index: 2147483647 !important;
+            position: fixed !important;
         }
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         
         /* --- RESPONSIVIDADE (MEDIA QUERIES) --- */
-        
-        /* Tablets e Desktops */
         @media (min-width: 768px) { 
-            .secret-label { font-size: 4rem; margin-bottom: 30px; }
-            .secret-label::after { height: 6px; bottom: -8px; }
-            .main-headline { font-size: 2.8rem; } 
+            .secret-label { font-size: 1.8rem; margin-bottom: 30px; }
+            .secret-label::after { height: 4px; bottom: -6px; }
+            
+            /* CORREÇÃO AQUI: Tamanho reduzido de 3.2rem para 2.4rem para caber numa linha */
+            .main-headline { font-size: 2.4rem; max-width: 900px; margin: 0 auto 15px auto; } 
+            
             .cta-button { font-size: 1.8rem; padding: 25px 40px; } 
             .modal-content { margin: 10% auto; padding: 30px; }
-            .container { padding: 40px 0; }
-            .top-bar { font-size: 1.2rem; padding: 20px; }
+            .container { padding: 40px 0; margin-top: 80px; } 
+            .top-bar { font-size: 1.2rem; height: 60px; }
         }
 
-        /* Mobile Geral - AJUSTE PARA 3 LINHAS E FORMATAÇÃO DA IMAGEM */
         @media (max-width: 767px) {
-            .secret-label { font-size: 2.5rem; }
-            .main-headline { 
-                font-size: 1.4rem; /* Tamanho calibrado para quebrar nas 3 linhas certas */
-            }
+            .secret-label { font-size: 1.1rem; letter-spacing: 2px; }
+            .main-headline { font-size: 1.6rem; line-height: 1.4; }
+            .mobile-br { display: block; content: ""; margin-top: 0; }
         }
 
-        /* Telemóveis Pequenos */
         @media (max-width: 380px) {
-            .secret-label { font-size: 2rem; }
-            .main-headline { font-size: 1.2rem; }
+            .secret-label { font-size: 1rem; }
+            .main-headline { font-size: 1.4rem; }
             .cta-button { font-size: 1.1rem; padding: 15px 10px; }
             .top-bar { font-size: 0.8rem; }
         }
@@ -320,12 +293,17 @@
     <div class="top-bar">Esse vídeo sairá do ar em poucas horas...</div>
 
     <div class="container">
-        
         <div class="headline-box">
-            <!-- NOVO ELEMENTO DA IMAGEM 2 -->
             <div class="secret-label">Segredo Revelado</div>
             
-            <h1 class="main-headline">Descubra como conquistar uma vida <br><span>sem dor Lombar e Ciática</span><br> em até 21 dias</h1>
+            <!-- HEADLINE FORMATADA -->
+            <h1 class="main-headline">
+                Descubra como conquistar uma vida <br>
+                <span>sem dor Lombar e Ciática</span> 
+                <span class="mobile-br"></span>
+                em até 21 dias
+            </h1>
+            
             <p class="headline-sub">Assista o vídeo abaixo para entender melhor...</p>
         </div>
 
@@ -346,10 +324,9 @@
                 <div class="security-item"><i class="fas fa-shield-alt"></i> Dados Protegidos</div>
             </div>
         </div>
-
     </div>
 
-    <!-- COMENTÁRIOS -->
+    <!-- COMENTÁRIOS E FOOTER -->
     <div class="comments-section">
         <div class="comments-header">12 Comentários</div>
         <div class="comment-item">
@@ -376,13 +353,12 @@
         <p style="opacity: 0.5; font-size: 0.6rem;">Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook.</p>
     </footer>
 
-    <!-- MODAL DE CAPTURA COM TELEFONE INTELIGENTE -->
+    <!-- MODAL DE CAPTURA -->
     <div id="leadModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2>Quase lá!</h2>
             <p>Preencha seus dados para finalizar sua inscrição.</p>
-            
             <form id="leadForm">
                 <div class="form-group">
                     <label for="name">Nome Completo</label>
@@ -396,7 +372,6 @@
                     <label for="phone">Telefone</label>
                     <input type="tel" id="phone" name="telefone" class="form-input" required>
                 </div>
-                
                 <button type="submit" class="modal-submit-btn">CONTINUAR PARA PAGAMENTO <i class="fas fa-arrow-right"></i></button>
             </form>
             <p style="margin-top: 15px; font-size: 0.7rem; color: #555;">Seus dados estão 100% seguros.</p>
@@ -406,13 +381,8 @@
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 
     <script>
-        // --- CONFIGURAÇÕES ---
         const checkoutUrl = "https://pay.hotmart.com/SEU_LINK_AQUI"; 
-        
-        // ** COLOQUE A URL DO GOOGLE SCRIPT AQUI **
         const googleScriptURL = "";
-
-        // Delay do Botão
         const minutos = 0;  
         const segundos = 5; 
         const tempoTotal = (minutos * 60 + segundos) * 1000;
@@ -440,12 +410,10 @@
 
         document.getElementById("leadForm").addEventListener("submit", function(event){
             event.preventDefault();
-
             if (!iti.isValidNumber()) {
                 alert("Por favor, insira um número de telefone válido.");
                 return;
             }
-
             const btn = document.querySelector(".modal-submit-btn");
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
             btn.disabled = true;
@@ -457,21 +425,11 @@
             formData.append("data", new Date().toLocaleString());
 
             if (googleScriptURL !== "") {
-                fetch(googleScriptURL, {
-                    method: "POST",
-                    body: formData,
-                    mode: "no-cors"
-                })
-                .then(() => {
-                    window.location.href = checkoutUrl;
-                })
-                .catch(error => {
-                    window.location.href = checkoutUrl;
-                });
+                fetch(googleScriptURL, { method: "POST", body: formData, mode: "no-cors" })
+                .then(() => { window.location.href = checkoutUrl; })
+                .catch(error => { window.location.href = checkoutUrl; });
             } else {
-                setTimeout(() => {
-                    window.location.href = checkoutUrl;
-                }, 1000);
+                setTimeout(() => { window.location.href = checkoutUrl; }, 1000);
             }
         });
     </script>
