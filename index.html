@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula 3 - Método Coluna Viva</title>
-    <!-- Fonte Google -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- Ícones Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- BIBLIOTECA DE TELEFONE COM BANDEIRAS (INTL-TEL-INPUT) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
     
     <style>
@@ -272,7 +270,23 @@
             .top-bar { font-size: 0.8rem; }
         }
     </style>
-</head>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2000502490762223');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2000502490762223&ev=PageView&noscript=1"
+    /></noscript>
+    </head>
 <body>
 
     <div class="top-bar">Esse vídeo sairá do ar em poucas horas...</div>
@@ -292,7 +306,6 @@
         </div>
 
         <div class="video-box">
-            <!-- NOVO VÍDEO DO BUNNY.NET (EMBED CODE ATUALIZADO) -->
             <iframe 
                 src="https://iframe.mediadelivery.net/embed/552312/e1f63950-46c3-4a42-92ab-090aed58333c?autoplay=true&loop=false&muted=false&preload=true&responsive=true" 
                 loading="lazy" 
@@ -322,7 +335,6 @@
         <p style="opacity: 0.5; font-size: 0.6rem;">Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook.</p>
     </footer>
 
-    <!-- MODAL DE CAPTURA -->
     <div id="leadModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -351,10 +363,12 @@
 
     <script>
         // CONFIGURAÇÕES
-        const checkoutUrl = "https://pay.hotmart.com/SEU_LINK_AQUI"; 
-        const googleScriptURL = "";
-        const minutos = 0;  
-        const segundos = 5; 
+        const checkoutUrl = "https://pay.kiwify.com.br/UQ3SQz3"; 
+        const googleScriptURL = "https://script.google.com/macros/s/AKfycbwm9jLzZq4v5FjROO24UeoC7DdCTzfW9n9vkzITU00vezvwfkgZL8V7BW34DmJS4980uQ/exec";
+        
+        // --- TIMER AJUSTADO PARA 5 MINUTOS ---
+        const minutos = 5;  // Alterado para 5
+        const segundos = 0; // Alterado para 0
         const tempoTotal = (minutos * 60 + segundos) * 1000;
         
         window.onload = function() {
@@ -403,14 +417,11 @@
             }
         });
     </script>
-    <footer>
-        <p>Copyright 2024 - Método Coluna Viva<br>Todos os direitos reservados.</p>
-        </footer>
 
     <noscript><iframe src="https://stape.ignusagency.pt/ns.html?id=GTM-P6PMSFH5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         // Prefixo dos links que devem ser modificados
-        // ⚠️ ATENÇÃO: Se seu link for Hotmart, troque o link abaixo por "pay.hotmart.com"
+        // ATENÇÃO: Se seu link for Hotmart, troque o link abaixo por "pay.hotmart.com"
         let prefix = ["https://pay.kiwify.com.br"]; 
 
         /**
@@ -514,6 +525,5 @@
       defer
     ></script>
 
-    </body> </html>
 </body>
 </html>
