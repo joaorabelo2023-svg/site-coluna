@@ -48,7 +48,7 @@
             min-height: 100vh;
         }
 
-        /* --- BARRA DE AVISO (CORREÇÃO ABSOLUTA) --- */
+        /* --- BARRA DE AVISO --- */
         .top-bar {
             background-color: var(--red-alert);
             position: absolute; 
@@ -110,7 +110,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
         
-        /* --- HEADLINE PRINCIPAL --- */
+        /* --- HEADLINE PRINCIPAL (ESTILOS PADRÃO/DESKTOP) --- */
         .main-headline { 
             font-size: 1.8rem;
             font-weight: 700;
@@ -118,17 +118,13 @@
             margin-bottom: 15px;
         }
         
+        /* O span amarelo no desktop age como texto normal */
         .main-headline span { 
             color: var(--accent-color); 
             font-weight: 700;
             border-bottom: 3px solid var(--accent-color);
             padding-bottom: 2px;
             display: inline; 
-        }
-
-        /* Classe para controlar a quebra de linha só no mobile */
-        .mobile-br {
-            display: none; 
         }
 
         .headline-sub {
@@ -154,7 +150,6 @@
             background-size: 40px 40px;
         }
 
-        /* CSS para o iframe (garante que ocupe a caixa toda) */
         .video-box iframe {
             position: absolute;
             top: 0;
@@ -244,13 +239,12 @@
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         
-        /* --- RESPONSIVIDADE (MEDIA QUERIES) --- */
+        /* --- RESPONSIVIDADE (DESKTOP) --- */
         @media (min-width: 768px) { 
             .secret-label { font-size: 1.8rem; margin-bottom: 30px; }
             .secret-label::after { height: 4px; bottom: -6px; }
             
             .main-headline { font-size: 2.4rem; max-width: 900px; margin: 0 auto 15px auto; } 
-            .main-headline span { display: inline; } /* Garante que no desktop fique na mesma linha se der */
             
             .cta-button { font-size: 1.8rem; padding: 25px 40px; } 
             .modal-content { margin: 10% auto; padding: 30px; }
@@ -258,35 +252,34 @@
             .top-bar { font-size: 1.2rem; height: 60px; }
         }
 
-        /* --- AJUSTES ESPECÍFICOS PARA MOBILE (IPHONE/ANDROID) --- */
+        /* --- RESPONSIVIDADE (MOBILE - IPHONE/ANDROID) --- */
         @media (max-width: 767px) {
             .secret-label { font-size: 1.1rem; letter-spacing: 2px; }
             
             .main-headline { 
-                /* Tamanho ajustado para caber em 3 linhas */
-                font-size: 1.35rem; 
-                line-height: 1.3;
+                /* Tamanho ajustado para garantir que a 1ª frase caiba numa linha só */
+                font-size: 1.25rem; 
+                line-height: 1.4;
                 padding: 0 5px;
             }
 
-            /* Esconde o BR original no mobile */
-            .desktop-br { display: none; }
+            /* Esconde o <br> do HTML original para não dar quebra dupla */
+            .main-headline br { display: none; }
 
-            /* Força o texto destacado (amarelo) a ocupar uma linha inteira sozinho */
+            /* AQUI ESTÁ O SEGREDO: 
+               Transforma o texto amarelo em um "BLOCO". 
+               Isso força ele a ficar sozinho na linha e empurra o resto para baixo. */
             .main-headline span {
                 display: block; 
                 width: 100%;
-                margin: 4px 0; /* Espaço em cima e embaixo para ficar bonito */
+                margin: 5px 0; /* Dá um respiro em cima e embaixo */
                 border-bottom: 3px solid var(--accent-color);
             }
-
-            .mobile-br { display: none; }
         }
 
         @media (max-width: 380px) {
-            /* Ajuste fino para telas muito pequenas */
             .secret-label { font-size: 1rem; }
-            .main-headline { font-size: 1.3rem; }
+            .main-headline { font-size: 1.2rem; }
             .cta-button { font-size: 1.1rem; padding: 15px 10px; }
             .top-bar { font-size: 0.8rem; }
         }
@@ -317,8 +310,8 @@
             <div class="secret-label">Segredo Revelado</div>
             
             <h1 class="main-headline">
-                Descubra como conquistar uma vida <br class="desktop-br">
-                <span>sem dor Lombar e Ciática</span> 
+                Descubra como conquistar uma vida
+                <br> <span>sem dor Lombar e Ciática</span> 
                 em até 21 dias
             </h1>
             
@@ -386,9 +379,9 @@
         const checkoutUrl = "https://pay.kiwify.com.br/UQ3SQz3"; 
         const googleScriptURL = "https://script.google.com/macros/s/AKfycbwm9jLzZq4v5FjROO24UeoC7DdCTzfW9n9vkzITU00vezvwfkgZL8V7BW34DmJS4980uQ/exec";
         
-        // --- TIMER AJUSTADO PARA 5 MINUTOS ---
-        const minutos = 5;  // Alterado para 5
-        const segundos = 0; // Alterado para 0
+        // --- TIMER 5 MINUTOS ---
+        const minutos = 5; 
+        const segundos = 0; 
         const tempoTotal = (minutos * 60 + segundos) * 1000;
         
         window.onload = function() {
@@ -440,100 +433,42 @@
 
     <noscript><iframe src="https://stape.ignusagency.pt/ns.html?id=GTM-P6PMSFH5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
-        // Prefixo dos links que devem ser modificados
-        // ATENÇÃO: Se seu link for Hotmart, troque o link abaixo por "pay.hotmart.com"
+        // Rastreamento UTMs
         let prefix = ["https://pay.kiwify.com.br"]; 
 
-        /**
-         * Função para gerar a string do parâmetro 'sck' (source|medium|campaign|term|content).
-         * @returns {string} Retorna a string "sck=..." ou uma string vazia se não houver UTMs.
-         */
         function getSckString() {
             try {
-                // Usamos window.top.location.href para garantir que pegamos a URL principal (útil em iframes)
                 let topUrl = new URL(window.top.location.href);
-
-                // Se não houver parâmetros na URL, não há o que fazer.
-                if (!topUrl.search) {
-                    return "";
-                }
-
-                // Pega cada parâmetro UTM. Se não existir, usa uma string vazia "" em vez de 'null'.
+                if (!topUrl.search) return "";
                 let source = topUrl.searchParams.get("utm_source") || "";
                 let medium = topUrl.searchParams.get("utm_medium") || "";
                 let campaign = topUrl.searchParams.get("utm_campaign") || "";
                 let term = topUrl.searchParams.get("utm_term") || "";
                 let content = topUrl.searchParams.get("utm_content") || "";
-
                 let sckValue = `${source}|${medium}|${campaign}|${term}|${content}`;
-
-                // Se o resultado for apenas "||||" (nenhum UTM encontrado), retorna string vazia
-                if (sckValue === "||||") {
-                    return "";
-                }
-
-                // Retorna o parâmetro formatado
+                if (sckValue === "||||") return "";
                 return `sck=${sckValue}`;
-
-            } catch (e) {
-                console.error("Erro ao processar parâmetros UTM:", e);
-                return ""; // Retorna vazio em caso de erro
-            }
+            } catch (e) { return ""; }
         }
 
-        /**
-         * Função principal (IIFE) que encontra e modifica os links na página.
-         */
         (function() {
-            // 1. Pega todos os parâmetros da URL da *janela atual* (ex: utm_source=google&utm_medium=cpc)
             let currentParams = new URLSearchParams(window.location.search);
             let currentParamsString = currentParams.toString();
-
-            // 2. Gera a string 'sck' personalizada (ex: sck=google|cpc|||)
             let sckString = getSckString();
-
-            // 3. Combina todos os parâmetros que precisamos adicionar
             let allParamsToAdd = "";
-
-            if (currentParamsString && sckString) {
-                // Se temos ambos, junta com "&"
-                allParamsToAdd = currentParamsString + "&" + sckString;
-            } else if (currentParamsString) {
-                // Se temos apenas os parâmetros atuais
-                allParamsToAdd = currentParamsString;
-            } else if (sckString) {
-                // Se temos apenas o sck
-                allParamsToAdd = sckString;
-            }
-
-            // Se não há NENHUM parâmetro para adicionar, para a execução.
-            if (!allParamsToAdd) {
-                // console.log("Script de rastreamento: Nenhum parâmetro encontrado na URL.");
-                return;
-            }
-
-            // 4. Itera sobre todos os links <a> da página
+            if (currentParamsString && sckString) allParamsToAdd = currentParamsString + "&" + sckString;
+            else if (currentParamsString) allParamsToAdd = currentParamsString;
+            else if (sckString) allParamsToAdd = sckString;
+            if (!allParamsToAdd) return;
             document.querySelectorAll("a").forEach(function(link) {
-                // Verifica se o href do link corresponde a algum item do 'prefix'
                 for (let i = 0; i < prefix.length; i++) {
                     if (link.href.indexOf(prefix[i]) > -1) {
-                        
-                        // Link encontrado! Agora vamos adicionar os parâmetros
-                        if (link.href.indexOf("?") === -1) {
-                            // Se o link ainda não tem "?", adiciona com "?"
-                            link.href += "?" + allParamsToAdd;
-                        } else {
-                            // Se o link já tem parâmetros, adiciona com "&"
-                            link.href += "&" + allParamsToAdd;
-                        }
-                        
-                        // Uma vez que o link foi modificado, podemos parar de verificar os prefixos
+                        if (link.href.indexOf("?") === -1) link.href += "?" + allParamsToAdd;
+                        else link.href += "&" + allParamsToAdd;
                         break; 
                     }
                 }
             });
-
-            console.log('%cScript de rastreamento de vendas desenvolvido pela Comunidade NOD - Dericson Calari e Samuel Choairy', 'font-size:20px;color:yellow;');
         })();
     </script>
 
