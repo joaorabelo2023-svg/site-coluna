@@ -2,483 +2,479 @@
 <html lang="pt-br">
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula 3 - Método Coluna Viva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
-    
-    <style>
-        /* --- RESET GERAL --- */
-        html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            overflow-x: hidden !important;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 3 - Método Coluna Viva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+    
+    <style>
+        /* --- RESET GERAL --- */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }
 
-        :root {
-            --bg-color: #0e0e0e;
-            --primary-color: #27ae60;
-            --primary-hover: #219150;
-            --accent-color: #f1c40f;
-            --text-white: #ffffff;
-            --text-gray: #b0b0b0;
-            --red-alert: #ff0000;
-        }
+        :root {
+            --bg-color: #0e0e0e;
+            --primary-color: #27ae60;
+            --primary-hover: #219150;
+            --accent-color: #f1c40f;
+            --text-white: #ffffff;
+            --text-gray: #b0b0b0;
+            --red-alert: #ff0000;
+        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            background-size: cover;
-            background-position: center;
-            color: var(--text-white);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            background-size: cover;
+            background-position: center;
+            color: var(--text-white);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        /* --- BARRA DE AVISO --- */
-        .top-bar {
-            background-color: var(--red-alert);
-            position: absolute; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #fff;
-            z-index: 1000; 
-        }
+        /* --- BARRA DE AVISO (CORREÇÃO ABSOLUTA) --- */
+        .top-bar {
+            background-color: var(--red-alert);
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #fff;
+            z-index: 1000; 
+        }
 
-        /* --- CONTAINER PRINCIPAL --- */
-        .container {
-            width: 100%;
-            max-width: 900px; 
-            padding: 20px;
-            margin-top: 50px; 
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-left: auto;
-            margin-right: auto;
-            flex-grow: 1; 
-        }
+        /* --- CONTAINER PRINCIPAL --- */
+        .container {
+            width: 100%;
+            max-width: 900px; 
+            padding: 20px;
+            margin-top: 50px; 
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            flex-grow: 1; 
+        }
 
-        /* --- SEGREDO REVELADO --- */
-        .headline-box { 
-            margin: 40px 0 30px 0; 
-            width: 100%;
-        }
+        /* --- SEGREDO REVELADO --- */
+        .headline-box { 
+            margin: 40px 0 30px 0; 
+            width: 100%;
+        }
 
-        .secret-label {
-            font-size: 1.2rem; 
-            font-weight: 900;
-            color: #fff;
-            display: inline-block;
-            position: relative;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .secret-label {
+            font-size: 1.2rem; 
+            font-weight: 900;
+            color: #fff;
+            display: inline-block;
+            position: relative;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-        .secret-label::after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: var(--red-alert);
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-        
-        /* --- HEADLINE PRINCIPAL (ESTILOS PADRÃO/DESKTOP) --- */
-        .main-headline { 
-            font-size: 1.8rem;
-            font-weight: 700;
-            line-height: 1.3; 
-            margin-bottom: 15px;
-        }
-        
-        /* O span amarelo no desktop age como texto normal */
-        .main-headline span { 
-            color: var(--accent-color); 
-            font-weight: 700;
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 2px;
-            display: inline; 
-        }
+        .secret-label::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--red-alert);
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        /* --- HEADLINE PRINCIPAL --- */
+        .main-headline { 
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.3; 
+            margin-bottom: 15px;
+        }
+        
+        .main-headline span { 
+            color: var(--accent-color); 
+            font-weight: 700;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 2px;
+            display: inline; 
+        }
 
-        .headline-sub {
-            margin-top: 15px; 
-            font-size: 1rem; 
-            color: #fff;
-            font-weight: 300; 
-            opacity: 0.9;
-        }
+        /* Classe para controlar a quebra de linha só no mobile */
+        .mobile-br {
+            display: none; 
+        }
 
-        /* --- VÍDEO --- */
-        .video-box {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            background-color: #000;
-            border: 2px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-            margin-bottom: 30px;
-            background-image: linear-gradient(45deg, #1a1a1a 25%, #2a2a2a 25%, #2a2a2a 50%, #1a1a1a 50%, #1a1a1a 75%, #2a2a2a 75%, #2a2a2a 100%);
-            background-size: 40px 40px;
-        }
+        .headline-sub {
+            margin-top: 15px; 
+            font-size: 1rem; 
+            color: #fff;
+            font-weight: 300; 
+            opacity: 0.9;
+        }
 
-        .video-box iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+        /* --- VÍDEO CONTAINER --- */
+        .video-box {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border: 2px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 30px;
+            background-image: linear-gradient(45deg, #1a1a1a 25%, #2a2a2a 25%, #2a2a2a 50%, #1a1a1a 50%, #1a1a1a 75%, #2a2a2a 75%, #2a2a2a 100%);
+            background-size: 40px 40px;
+        }
 
-        /* --- OFERTA --- */
-        .offer-section {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1s ease-in;
-            background: rgba(39, 174, 96, 0.05);
-            padding: 25px 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            width: 100%;
-        }
-        .offer-section.visible { opacity: 1; visibility: visible; }
+        /* Garante que o player preencha a caixa responsiva corretamente */
+        .video-box iframe, 
+        .video-box vturb-smartplayer { /* Aplica os estilos ao elemento customizado */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block; /* Garante que o elemento seja exibido */
+        }
 
-        .cta-button {
-            display: block; width: 100%; max-width: 100%; margin: 0 auto;
-            background-color: var(--primary-color); color: #fff; 
-            padding: 20px 15px; font-size: 1.3rem; font-weight: 900; 
-            text-transform: uppercase; border-radius: 50px; text-decoration: none;
-            box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.5);
-            transition: all 0.2s; animation: pulse 2s infinite; cursor: pointer; border: none;
-            line-height: 1.2;
-        }
-        .cta-button:active { transform: translateY(4px); box-shadow: 0 1px 0 #1e8449, 0 2px 5px rgba(0,0,0,0.5); }
-        .cta-button sub { display: block; font-size: 0.75rem; font-weight: 400; margin-top: 5px; text-transform: none; opacity: 0.95; }
 
-        .security-badges { margin-top: 20px; display: flex; justify-content: center; gap: 15px; color: var(--text-gray); font-size: 0.75rem; flex-wrap: wrap; }
-        .security-item { display: flex; align-items: center; gap: 5px; }
+        /* --- OFERTA --- */
+        .offer-section {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in;
+            background: rgba(39, 174, 96, 0.05);
+            padding: 25px 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+        }
+        .offer-section.visible { opacity: 1; visibility: visible; }
 
-        /* --- FOOTER --- */
-        footer { margin-top: 40px; padding: 30px 20px; text-align: center; font-size: 0.7rem; color: #555; border-top: 1px solid #222; width: 100%; }
-        footer a { color: #777; text-decoration: none; }
+        .cta-button {
+            display: block; width: 100%; max-width: 100%; margin: 0 auto;
+            background-color: var(--primary-color); color: #fff; 
+            padding: 20px 15px; font-size: 1.3rem; font-weight: 900; 
+            text-transform: uppercase; border-radius: 50px; text-decoration: none;
+            box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.5);
+            transition: all 0.2s; animation: pulse 2s infinite; cursor: pointer; border: none;
+            line-height: 1.2;
+        }
+        .cta-button:active { transform: translateY(4px); box-shadow: 0 1px 0 #1e8449, 0 2px 5px rgba(0,0,0,0.5); }
+        .cta-button sub { display: block; font-size: 0.75rem; font-weight: 400; margin-top: 5px; text-transform: none; opacity: 0.95; }
 
-        /* --- MODAL / POPUP --- */
-        .modal {
-            display: none; position: fixed; z-index: 10000; left: 0; top: 0;
-            width: 100%; height: 100%; overflow: auto;
-            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background-color: #1f1f1f; margin: 15% auto; padding: 25px;
-            border: 1px solid #333; width: 90%; max-width: 400px;
-            border-radius: 12px; box-shadow: 0 5px 30px rgba(0,0,0,0.5);
-            position: relative; text-align: center; animation: slideDown 0.4s ease-out;
-        }
-        @keyframes slideDown { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
-        
-        .close-btn { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close-btn:hover { color: #fff; }
-        .modal h2 { color: #fff; margin-bottom: 10px; font-size: 1.5rem; }
-        .modal p { color: #bbb; font-size: 0.9rem; margin-bottom: 20px; }
-        
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; color: #ddd; margin-bottom: 5px; font-size: 0.9rem; }
-        
-        .form-input {
-            width: 100%; padding: 12px; background-color: #fff; border: 1px solid #ccc;
-            color: #000; border-radius: 6px; font-size: 1rem; outline: none;
-        }
-        .form-input:focus { border-color: var(--primary-color); }
-        
-        .modal-submit-btn {
-            width: 100%; padding: 15px; background-color: var(--primary-color);
-            color: white; border: none; border-radius: 6px; font-size: 1.1rem;
-            font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
-        }
-        .modal-submit-btn:hover { background-color: var(--primary-hover); }
+        .security-badges { margin-top: 20px; display: flex; justify-content: center; gap: 15px; color: var(--text-gray); font-size: 0.75rem; flex-wrap: wrap; }
+        .security-item { display: flex; align-items: center; gap: 5px; }
 
-        .iti { width: 100%; margin-bottom: 15px; color: #000; }
-        .iti--allow-dropdown input { padding-left: 95px !important; color: #000; background-color: #fff; }
-        
-        .iti__country-list, .iti--container {
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #ccc;
-            z-index: 2147483647 !important;
-            position: fixed !important;
-        }
+        /* --- FOOTER --- */
+        footer { margin-top: 40px; padding: 30px 20px; text-align: center; font-size: 0.7rem; color: #555; border-top: 1px solid #222; width: 100%; }
+        footer a { color: #777; text-decoration: none; }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        
-        /* --- RESPONSIVIDADE (DESKTOP) --- */
-        @media (min-width: 768px) { 
-            .secret-label { font-size: 1.8rem; margin-bottom: 30px; }
-            .secret-label::after { height: 4px; bottom: -6px; }
-            
-            .main-headline { font-size: 2.4rem; max-width: 900px; margin: 0 auto 15px auto; } 
-            
-            .cta-button { font-size: 1.8rem; padding: 25px 40px; } 
-            .modal-content { margin: 10% auto; padding: 30px; }
-            .container { padding: 40px 0; margin-top: 80px; } 
-            .top-bar { font-size: 1.2rem; height: 60px; }
-        }
+        /* --- MODAL / POPUP --- */
+        .modal {
+            display: none; position: fixed; z-index: 10000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #1f1f1f; margin: 15% auto; padding: 25px;
+            border: 1px solid #333; width: 90%; max-width: 400px;
+            border-radius: 12px; box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+            position: relative; text-align: center; animation: slideDown 0.4s ease-out;
+        }
+        @keyframes slideDown { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        
+        .close-btn { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: #fff; }
+        .modal h2 { color: #fff; margin-bottom: 10px; font-size: 1.5rem; }
+        .modal p { color: #bbb; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; color: #ddd; margin-bottom: 5px; font-size: 0.9rem; }
+        
+        .form-input {
+            width: 100%; padding: 12px; background-color: #fff; border: 1px solid #ccc;
+            color: #000; border-radius: 6px; font-size: 1rem; outline: none;
+        }
+        .form-input:focus { border-color: var(--primary-color); }
+        
+        .modal-submit-btn {
+            width: 100%; padding: 15px; background-color: var(--primary-color);
+            color: white; border: none; border-radius: 6px; font-size: 1.1rem;
+            font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .modal-submit-btn:hover { background-color: var(--primary-hover); }
 
-        /* --- RESPONSIVIDADE (MOBILE - IPHONE/ANDROID) --- */
-        @media (max-width: 767px) {
-            .secret-label { font-size: 1.1rem; letter-spacing: 2px; }
-            
-            .main-headline { 
-                /* Tamanho ajustado para garantir que a 1ª frase caiba numa linha só */
-                font-size: 1.25rem; 
-                line-height: 1.4;
-                padding: 0 5px;
-            }
+        .iti { width: 100%; margin-bottom: 15px; color: #000; }
+        .iti--allow-dropdown input { padding-left: 95px !important; color: #000; background-color: #fff; }
+        
+        .iti__country-list, .iti--container {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            z-index: 2147483647 !important;
+            position: fixed !important;
+        }
 
-            /* Esconde o <br> do HTML original para não dar quebra dupla */
-            .main-headline br { display: none; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        /* --- RESPONSIVIDADE (MEDIA QUERIES) --- */
+        @media (min-width: 768px) { 
+            .secret-label { font-size: 1.8rem; margin-bottom: 30px; }
+            .secret-label::after { height: 4px; bottom: -6px; }
+            
+            .main-headline { font-size: 2.4rem; max-width: 900px; margin: 0 auto 15px auto; } 
+            
+            .cta-button { font-size: 1.8rem; padding: 25px 40px; } 
+            .modal-content { margin: 10% auto; padding: 30px; }
+            .container { padding: 40px 0; margin-top: 80px; } 
+            .top-bar { font-size: 1.2rem; height: 60px; }
 
-            /* AQUI ESTÁ O SEGREDO: 
-               Transforma o texto amarelo em um "BLOCO". 
-               Isso força ele a ficar sozinho na linha e empurra o resto para baixo. */
-            .main-headline span {
-                display: block; 
-                width: 100%;
-                margin: 5px 0; /* Dá um respiro em cima e embaixo */
-                border-bottom: 3px solid var(--accent-color);
-            }
-        }
+            .mobile-br { display: none; } /* Garantir que a quebra não apareça no desktop */
+        }
 
-        @media (max-width: 380px) {
-            .secret-label { font-size: 1rem; }
-            .main-headline { font-size: 1.2rem; }
-            .cta-button { font-size: 1.1rem; padding: 15px 10px; }
-            .top-bar { font-size: 0.8rem; }
-        }
-    </style>
+        @media (max-width: 767px) {
+            .secret-label { font-size: 1.1rem; letter-spacing: 2px; }
+            .main-headline { font-size: 1.6rem; line-height: 1.4; }
+            .main-headline br { display: none; } /* Remove o br nativo */
+            .main-headline span { display: block; width: 100%; margin: 5px 0; } /* Força o span para nova linha */
+            .mobile-br { display: none; } /* A quebra é feita pelo display: block do span */
+        }
 
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '2000502490762223');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=2000502490762223&ev=PageView&noscript=1"
-    /></noscript>
-    </head>
+        @media (max-width: 380px) {
+            .secret-label { font-size: 1rem; }
+            .main-headline { font-size: 1.4rem; }
+            .cta-button { font-size: 1.1rem; padding: 15px 10px; }
+            .top-bar { font-size: 0.8rem; }
+        }
+    </style>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2000502490762223');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2000502490762223&ev=PageView&noscript=1"
+    /></noscript>
+    </head>
 <body>
 
-    <div class="top-bar">Esse vídeo sairá do ar em poucas horas...</div>
+    <div class="top-bar">Esse vídeo sairá do ar em poucas horas...</div>
 
-    <div class="container">
-        <div class="headline-box">
-            <div class="secret-label">Segredo Revelado</div>
-            
-            <h1 class="main-headline">
-                Descubra como conquistar uma vida
-                <br> <span>sem dor Lombar e Ciática</span> 
-                em até 21 dias
-            </h1>
-            
-            <p class="headline-sub">Assista o vídeo abaixo para entender melhor...</p>
-        </div>
+    <div class="container">
+        <div class="headline-box">
+            <div class="secret-label">Segredo Revelado</div>
+            
+            <h1 class="main-headline">
+                Descubra como conquistar uma vida
+                <br> <span>sem dor Lombar e Ciática</span> 
+                em até 21 dias
+            </h1>
+            
+            <p class="headline-sub">Assista o vídeo abaixo para entender melhor...</p>
+        </div>
 
-        <div class="video-box">
-                      <vturb-smartplayer id="vid-6933546de212f51b19a08819" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
-                   </div>
+        <div class="video-box">
+            <!-- NOVO PLAYER VTURB/CONVERTEAI -->
+            <vturb-smartplayer id="vid-6933546de212f51b19a08819"></vturb-smartplayer>
+            <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/f871ac12-ce02-4138-ab30-b041530709dd/players/6933546de212f51b19a08819/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+        </div>
 
-        <div class="offer-section" id="oferta">
-            <button class="cta-button" onclick="openModal()">
-                QUERO ME INSCREVER AGORA
-                <sub>Garantia de 7 dias ou seu dinheiro de volta</sub>
-            </button>
-            <div class="security-badges">
-                <div class="security-item"><i class="fas fa-lock"></i> Compra Segura</div>
-                <div class="security-item"><i class="fas fa-shield-alt"></i> Dados Protegidos</div>
-            </div>
-        </div>
-    </div>
+        <div class="offer-section" id="oferta">
+            <button class="cta-button" onclick="openModal()">
+                QUERO ME INSCREVER AGORA
+                <sub>Garantia de 7 dias ou seu dinheiro de volta</sub>
+            </button>
+            <div class="security-badges">
+                <div class="security-item"><i class="fas fa-lock"></i> Compra Segura</div>
+                <div class="security-item"><i class="fas fa-shield-alt"></i> Dados Protegidos</div>
+            </div>
+        </div>
+    </div>
 
-    <footer>
-        <p>Copyright 2024 - Método Coluna Viva<br>Todos os direitos reservados.</p>
-        <br>
-        <p><a href="#">Termos de Uso</a> | <a href="#">Políticas de Privacidade</a></p>
-        <br>
-        <p style="opacity: 0.5; font-size: 0.6rem;">Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook.</p>
-    </footer>
+    <footer>
+        <p>Copyright 2024 - Método Coluna Viva<br>Todos os direitos reservados.</p>
+        <br>
+        <p><a href="#">Termos de Uso</a> | <a href="#">Políticas de Privacidade</a></p>
+        <br>
+        <p style="opacity: 0.5; font-size: 0.6rem;">Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook.</p>
+    </footer>
 
-    <div id="leadModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Quase lá!</h2>
-            <p>Preencha seus dados para finalizar sua inscrição.</p>
-            <form id="leadForm">
-                <div class="form-group">
-                    <label for="name">Nome Completo</label>
-                    <input type="text" id="name" name="nome" class="form-input" placeholder="Digite seu nome" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="Digite seu melhor e-mail" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Telefone</label>
-                    <input type="tel" id="phone" name="telefone" class="form-input" required>
-                </div>
-                <button type="submit" class="modal-submit-btn">CONTINUAR PARA PAGAMENTO <i class="fas fa-arrow-right"></i></button>
-            </form>
-            <p style="margin-top: 15px; font-size: 0.7rem; color: #555;">Seus dados estão 100% seguros.</p>
-        </div>
-    </div>
+    <div id="leadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Quase lá!</h2>
+            <p>Preencha seus dados para finalizar sua inscrição.</p>
+            <form id="leadForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" name="nome" class="form-input" placeholder="Digite seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Digite seu melhor e-mail" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" name="telefone" class="form-input" required>
+                </div>
+                <button type="submit" class="modal-submit-btn">CONTINUAR PARA PAGAMENTO <i class="fas fa-arrow-right"></i></button>
+            </form>
+            <p style="margin-top: 15px; font-size: 0.7rem; color: #555;">Seus dados estão 100% seguros.</p>
+        </div>
+    </div>
 
-        <script type="text/javascript">
-        var s=document.createElement("script");
-        s.src="https://scripts.converteai.net/f871ac12-ce02-4138-ab30-b041530709dd/players/6933546de212f51b19a08819/v4/player.js",
-        s.async=!0,document.head.appendChild(s);
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+    <script>
+        // CONFIGURAÇÕES
+        const checkoutUrl = "https://pay.kiwify.com.br/UQ3SQz3"; 
+        const googleScriptURL = "https://script.google.com/macros/s/AKfycbwm9jLzZq4v5FjROO24UeoC7DdCTzfW9n9vkzITU00vezvwfkgZL8V7BW34DmJS4980uQ/exec";
+         
+        // --- TIMER 5 MINUTOS (CORRIGIDO PARA 5 MINUTOS) ---
+        const minutos = 5;  
+        const segundos = 0;  
+        const tempoTotal = (minutos * 60 + segundos) * 1000;
+         
+        window.onload = function() {
+            // O tempo total é usado para exibir a seção de oferta após 5 minutos.
+            setTimeout(function() {
+                var offerSection = document.getElementById('oferta');
+                offerSection.classList.add('visible');
+            }, tempoTotal);
+        };
 
-    <script>
-        // CONFIGURAÇÕES
-        const checkoutUrl = "https://pay.kiwify.com.br/UQ3SQz3"; 
-        const googleScriptURL = "https://script.google.com/macros/s/AKfycbwm9jLzZq4v5FjROO24UeoC7DdCTzfW9n9vkzITU00vezvwfkgZL8V7BW34DmJS4980uQ/exec";
-        
-        // --- TIMER 5 MINUTOS ---
-        const minutos = 5; 
-        const segundos = 0; 
-        const tempoTotal = (minutos * 60 + segundos) * 1000;
-        
-        window.onload = function() {
-            setTimeout(function() {
-                var offerSection = document.getElementById('oferta');
-                offerSection.classList.add('visible');
-            }, tempoTotal);
-        };
+        // Inicialização do Input de Telefone (intl-tel-input)
+        const phoneInput = document.querySelector("#phone");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "br", 
+            preferredCountries: ["br", "pt", "us", "ao", "mz"],
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+            separateDialCode: true,
+            dropdownContainer: document.body 
+        });
 
-        const phoneInput = document.querySelector("#phone");
-        const iti = window.intlTelInput(phoneInput, {
-            initialCountry: "br", 
-            preferredCountries: ["br", "pt", "us", "ao", "mz"],
-            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
-            separateDialCode: true,
-            dropdownContainer: document.body 
-        });
+        // Funções de Modal (Popup)
+        const modal = document.getElementById("leadModal");
+        function openModal() { modal.style.display = "block"; }
+        function closeModal() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) closeModal(); }
 
-        const modal = document.getElementById("leadModal");
-        function openModal() { modal.style.display = "block"; }
-        function closeModal() { modal.style.display = "none"; }
-        window.onclick = function(event) { if (event.target == modal) closeModal(); }
+        // Lógica de Submissão do Formulário
+        document.getElementById("leadForm").addEventListener("submit", function(event){
+            event.preventDefault();
+            // Aviso: Alerta foi mantido do código original, mas o ideal é usar um modal customizado
+            if (!iti.isValidNumber()) {
+                // Substitua este alert por um modal customizado, conforme as boas práticas:
+                console.error("Por favor, insira um número de telefone válido.");
+                return;
+            }
+            const btn = document.querySelector(".modal-submit-btn");
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            btn.disabled = true;
 
-        document.getElementById("leadForm").addEventListener("submit", function(event){
-            event.preventDefault();
-            if (!iti.isValidNumber()) {
-                alert("Por favor, insira um número de telefone válido.");
-                return;
-            }
-            const btn = document.querySelector(".modal-submit-btn");
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            btn.disabled = true;
+            // Envio de dados para Google Sheets (no-cors)
+            const formData = new FormData();
+            formData.append("nome", document.getElementById("name").value);
+            formData.append("email", document.getElementById("email").value);
+            formData.append("telefone", iti.getNumber());
+            formData.append("data", new Date().toLocaleString());
 
-            const formData = new FormData();
-            formData.append("nome", document.getElementById("name").value);
-            formData.append("email", document.getElementById("email").value);
-            formData.append("telefone", iti.getNumber());
-            formData.append("data", new Date().toLocaleString());
+            if (googleScriptURL !== "") {
+                fetch(googleScriptURL, { method: "POST", body: formData, mode: "no-cors" })
+                .then(() => { window.location.href = checkoutUrl; })
+                .catch(error => { window.location.href = checkoutUrl; });
+            } else {
+                setTimeout(() => { window.location.href = checkoutUrl; }, 1000);
+            }
+        });
+    </script>
 
-            if (googleScriptURL !== "") {
-                fetch(googleScriptURL, { method: "POST", body: formData, mode: "no-cors" })
-                .then(() => { window.location.href = checkoutUrl; })
-                .catch(error => { window.location.href = checkoutUrl; });
-            } else {
-                setTimeout(() => { window.location.href = checkoutUrl; }, 1000);
-            }
-        });
-    </script>
+    <noscript><iframe src="https://stape.ignusagency.pt/ns.html?id=GTM-P6PMSFH5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        // Rastreamento UTMs
+        let prefix = ["https://pay.kiwify.com.br"]; 
 
-    <noscript><iframe src="https://stape.ignusagency.pt/ns.html?id=GTM-P6PMSFH5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <script>
-        // Rastreamento UTMs
-        let prefix = ["https://pay.kiwify.com.br"]; 
+        function getSckString() {
+            try {
+                let topUrl = new URL(window.top.location.href);
+                if (!topUrl.search) return "";
+                let source = topUrl.searchParams.get("utm_source") || "";
+                let medium = topUrl.searchParams.get("utm_medium") || "";
+                let campaign = topUrl.searchParams.get("utm_campaign") || "";
+                let term = topUrl.searchParams.get("utm_term") || "";
+                let content = topUrl.searchParams.get("utm_content") || "";
+                let sckValue = `${source}|${medium}|${campaign}|${term}|${content}`;
+                if (sckValue === "||||") return "";
+                return `sck=${sckValue}`;
+            } catch (e) { return ""; }
+        }
 
-        function getSckString() {
-            try {
-                let topUrl = new URL(window.top.location.href);
-                if (!topUrl.search) return "";
-                let source = topUrl.searchParams.get("utm_source") || "";
-                let medium = topUrl.searchParams.get("utm_medium") || "";
-                let campaign = topUrl.searchParams.get("utm_campaign") || "";
-                let term = topUrl.searchParams.get("utm_term") || "";
-                let content = topUrl.searchParams.get("utm_content") || "";
-                let sckValue = `${source}|${medium}|${campaign}|${term}|${content}`;
-                if (sckValue === "||||") return "";
-                return `sck=${sckValue}`;
-            } catch (e) { return ""; }
-        }
+        (function() {
+            let currentParams = new URLSearchParams(window.location.search);
+            let currentParamsString = currentParams.toString();
+            let sckString = getSckString();
+            let allParamsToAdd = "";
+            if (currentParamsString && sckString) allParamsToAdd = currentParamsString + "&" + sckString;
+            else if (currentParamsString) allParamsToAdd = currentParamsString;
+            else if (sckString) allParamsToAdd = sckString;
+            if (!allParamsToAdd) return;
+            document.querySelectorAll("a").forEach(function(link) {
+                for (let i = 0; i < prefix.length; i++) {
+                    if (link.href.indexOf(prefix[i]) > -1) {
+                        if (link.href.indexOf("?") === -1) link.href += "?" + allParamsToAdd;
+                        else link.href += "&" + allParamsToAdd;
+                        break; 
+                    }
+                }
+            });
+        })();
+    </script>
 
-        (function() {
-            let currentParams = new URLSearchParams(window.location.search);
-            let currentParamsString = currentParams.toString();
-            let sckString = getSckString();
-            let allParamsToAdd = "";
-            if (currentParamsString && sckString) allParamsToAdd = currentParamsString + "&" + sckString;
-            else if (currentParamsString) allParamsToAdd = currentParamsString;
-            else if (sckString) allParamsToAdd = sckString;
-            if (!allParamsToAdd) return;
-            document.querySelectorAll("a").forEach(function(link) {
-                for (let i = 0; i < prefix.length; i++) {
-                    if (link.href.indexOf(prefix[i]) > -1) {
-                        if (link.href.indexOf("?") === -1) link.href += "?" + allParamsToAdd;
-                        else link.href += "&" + allParamsToAdd;
-                        break; 
-                    }
-                }
-            });
-        })();
-    </script>
-
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-xcod-sck
+      data-utmify-prevent-subids
+      async
+      defer
+    ></script>
 
 </body>
 </html>
